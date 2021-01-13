@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Typing game</title>
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <h1>Typing game!</h1>
+    <p>
+      Practice your typing skills with a quote. Click <strong>Start</strong> to
+      begin!
+    </p>
+    <p id="quote">Text will appear here.</p>
+    <!-- This will display our quote -->
+    <p id="message"></p>
+    <!-- This will display any status messages -->
+    <p id="high-score"></p>
+    <div class="interactive">
+      <input type="text" aria-label="current word" id="typed-value" />
+      <!-- The textbox for typing -->
+      <button type="button" id="start">Start</button>
+      <!-- To start the game -->
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

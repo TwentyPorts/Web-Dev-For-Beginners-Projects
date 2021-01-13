@@ -1,0 +1,47 @@
+h1 {
+  font-family: Helvetica, sans-serif, serif;
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+.error {
+  background-color: lightcoral;
+  border: red;
+}
+
+#quote {
+  display: inline-block;
+  outline: thin solid black;
+  outline-offset: 3px;
+  margin: 0px;
+}
+
+.interactive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#typed-value {
+  width: 200px;
+  height: 30px;
+  font-size: large;
+}
+
+#start {
+  width: 80px;
+  height: 40px;
+  margin: 7px;
+  font-size: x-large;
+}
+
+p {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+  text-align: center;
+  font-size: x-large;
+}
