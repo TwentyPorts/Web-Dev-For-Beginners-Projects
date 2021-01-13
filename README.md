@@ -1,1 +1,1 @@
-"# Web-Dev-For-Beginners-Projects" 
+Solutions for https://github.com/microsoft/Web-Dev-For-Beginners
