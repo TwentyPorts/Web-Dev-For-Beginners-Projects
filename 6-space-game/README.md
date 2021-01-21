@@ -15,6 +15,8 @@ Extra functionalities (beyond scope of lesson):
 * Changed keyup to keypress method
   * Now allows holding down arrow keys/space bar for continuous movement or firing
 
+* Made game window larger
+
 * Fixed bug allowing cooldown bypass by spamming space bar
 
 * Added various comments
