@@ -1,0 +1,31 @@
+@media all and (max-width: 800px) {
+  #bankAppHeader {
+    font-size: 250%;
+  }
+
+  #username,
+  #user,
+  #currency,
+  #description,
+  #balance {
+    margin: auto;
+    width: 83%;
+    font-size: 100%;
+  }
+
+  .loginHeader {
+    padding: 2% 4% 2% 4%;
+    margin: 10% 7% 7% 7%;
+    font-size: 100%;
+  }
+
+  #login-button,
+  #register-button {
+    font-size: 100%;
+    width: 85%;
+    padding: 2% 4%;
+    font-size: 100%;
+    box-shadow: 0rem 0rem 0.2rem 0rem;
+    margin: auto;
+  }
+}

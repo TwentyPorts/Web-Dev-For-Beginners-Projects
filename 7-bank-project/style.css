@@ -1,0 +1,62 @@
+#bankAppHeader {
+  font-family: "Lucida Console";
+  font-size: 300%;
+  text-shadow: 3px 3px #e0cf39;
+}
+
+body {
+  background-color: rgb(129, 220, 243);
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+#center-outline {
+  background-color: rgb(223, 236, 241);
+  display: inline-block;
+  /*outline: thin solid black;
+  outline-offset: 0px;*/
+  padding-left: 2%;
+  padding-right: 2%;
+  border-radius: 1rem;
+  margin: auto;
+  width: auto;
+  text-align: center;
+}
+
+#username,
+#user,
+#currency,
+#description,
+#balance {
+  margin: 0.2rem 0rem;
+  width: 95%;
+  border-radius: 0.4rem;
+  font-size: 100%;
+}
+
+.loginHeader {
+  background-color: rgb(248, 185, 92);
+  padding: 2% 4% 2% 4%;
+  border-radius: 0.5rem;
+  margin: 10% 2% 7% 2%;
+}
+
+#login-button,
+#register-button {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  background-color: rgb(129, 220, 243);
+  text-align: center;
+  padding: 2% 2%;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 100%;
+  box-shadow: 0rem 0rem 0.2rem 0rem;
+  margin: 0% 2%;
+}
+
+#transactionTable {
+  display: inline-block;
+  text-align: center;
+}
