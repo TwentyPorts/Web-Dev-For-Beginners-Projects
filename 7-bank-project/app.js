@@ -1,8 +1,12 @@
-let account = null;
+const storageKey = 'savedAccount';
+
+let state = Object.freeze({
+  account: null
+});
 
 const routes = {
   "/login": { templateId: "login" },
-  "/dashboard": { templateId: "dashboard", init: updateDashboard },
+  "/dashboard": { templateId: "dashboard", init: refresh },
   "/credits": { templateId: "credits" },
 };
 
@@ -11,19 +15,19 @@ function updateRoute(templateId) {
   const route = routes[path];
 
   if (!route) {
-    //for incorrect url paths
-    return navigate("/login");
+    // For incorrect url paths
+    return navigate('/dashboard'); // dashboard falls back to login if no account is found
   }
 
   const template = document.getElementById(route.templateId);
   const view = template.content.cloneNode(true);
   const app = document.getElementById("app");
-  document.title = route.templateId + " - Bank App";
+  document.title = route.templateId + " - Bank App"; // Updates browser tab title
   console.log(route.templateId + " is shown");
   app.innerHTML = "";
   app.appendChild(view);
 
-  //if the init attribute of route is the name of a function, call that function
+  // If the init attribute of route is the name of a function, call that function
   if (typeof route.init === "function") {
     route.init();
   }
@@ -31,19 +35,50 @@ function updateRoute(templateId) {
 
 function navigate(path) {
   window.history.pushState({}, path, window.location.origin + path);
-  //window.location.origin + path allows reconstruction of complete URL
+  // window.location.origin + path allows reconstruction of complete URL
   updateRoute();
 }
-
-updateRoute("login");
 
 function onLinkClick(event) {
   event.preventDefault();
   navigate(event.target.href);
 }
 
-window.onpopstate = () => updateRoute();
-updateRoute();
+function updateElement(id, textOrNode) {
+  const element = document.getElementById(id);
+  element.textContent = ""; // Removes all children
+  element.append(textOrNode);
+}
+
+function updateState(property, newData) {
+  state = Object.freeze({
+    ...state,
+    [property]: newData
+  });
+  localStorage.setItem(storageKey, JSON.stringify(state.account));
+  //console.log(state);
+}
+
+async function updateAccountData() {
+  const account = state.account;
+  if (!account) {
+    return logout();
+  }
+
+  const data = await sendRequest(account.user, "login");
+  if (data.error) {
+    return logout();
+  }
+
+  updateState('account', data);
+}
+
+async function refresh() {
+  await updateAccountData();
+  updateDashboard();
+}
+
+// ===== LOGIN/REGISTER =====
 
 async function register() {
   const errorMessage = document.getElementById("errorMessage");
@@ -52,7 +87,7 @@ async function register() {
   const formData = new FormData(registerForm);
   const data = Object.fromEntries(formData);
   const jsonData = JSON.stringify(data);
-  const result = await createAccount(jsonData);
+  const result = await sendRequest(jsonData, "register");
 
   if (result.error) {
     if ((result.error = "User already exists")) {
@@ -63,56 +98,59 @@ async function register() {
 
   console.log("Account created!", result);
 
-  account = result;
+  updateState('account', result);
   navigate("/dashboard");
-}
-
-async function createAccount(account) {
-  try {
-    const response = await fetch("//localhost:5000/api/accounts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: account,
-    });
-    return await response.json();
-  } catch (error) {
-    return { error: error.message || "Unknown error" };
-  }
 }
 
 async function login() {
   const loginForm = document.getElementById("loginForm");
   const user = loginForm.user.value;
-  const data = await getAccount(user);
+  const data = await sendRequest(user, "login");
 
   if (data.error) {
     return updateElement("loginError", data.error);
   }
 
-  account = data;
+  updateState('account', data);
   navigate("/dashboard");
 }
 
-async function getAccount(user) {
+function logout() {
+  updateState('account', null);
+  navigate('/login');
+}
+
+async function sendRequest(account, requestType) {
   try {
-    const response = await fetch(
-      "//localhost:5000/api/accounts/" + encodeURIComponent(user)
-    );
-    return await response.json();
+    switch (requestType) {
+      case "login": {
+        const response = await fetch(
+          "//localhost:5000/api/accounts/" + encodeURIComponent(account)
+        );
+        return await response.json();
+      }
+      case "register": {
+        const response = await fetch("//localhost:5000/api/accounts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: account,
+        });
+        return await response.json();
+      }
+      default:
+        throw "Unknown request";
+    }
   } catch (error) {
     return { error: error.message || "Unknown error" };
   }
 }
 
-function updateElement(id, textOrNode) {
-  const element = document.getElementById(id);
-  element.textContent = ''; // Removes all children
-  element.append(textOrNode);
-}
+// ===== DASHBOARD =====
 
 function updateDashboard() {
+  const account = state.account;
   if (!account) {
-    return navigate("/login");
+    return logout();
   }
 
   updateElement("description", account.description);
@@ -127,6 +165,7 @@ function updateDashboard() {
   updateElement("transactions", transactionsRows);
 }
 
+// Create contents for table of transactions
 function createTransactionRow(transaction) {
   const template = document.getElementById("transaction");
   const transactionRow = template.content.cloneNode(true);
@@ -136,3 +175,18 @@ function createTransactionRow(transaction) {
   tr.children[2].textContent = transaction.amount.toFixed(2);
   return transactionRow;
 }
+
+// ===== INIT =====
+
+function init() {
+  const savedAccount = localStorage.getItem(storageKey);
+  if (savedAccount) {
+    updateState('account', JSON.parse(savedAccount));
+  }
+
+  // Our previous initialization code
+  window.onpopstate = () => updateRoute();
+  updateRoute();
+}
+
+init();

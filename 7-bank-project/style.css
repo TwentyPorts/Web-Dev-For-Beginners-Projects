@@ -1,34 +1,34 @@
-#bankAppHeader {
-  font-family: "Lucida Console";
-  font-size: 300%;
-  text-shadow: 3px 3px #e0cf39;
+html {
+  height: 100%;
+  width: 100%;
 }
 
 body {
   background-color: rgb(129, 220, 243);
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
+  height: auto;
+  width: auto;
+}
+
+#bankAppHeader {
+  font-family: "Lucida Console";
+  font-size: 4vw;
+  text-shadow: 3px 3px #e0cf39;
+  margin: 1%;
 }
 
 #center-outline {
   background-color: rgb(223, 236, 241);
   display: inline-block;
-  /*outline: thin solid black;
-  outline-offset: 0px;*/
   padding-left: 2%;
   padding-right: 2%;
   border-radius: 1rem;
-  margin: auto;
-  width: auto;
   text-align: center;
 }
 
-#username,
-#user,
-#currency,
-#description,
-#balance {
-  margin: 0.2rem 0rem;
+.inputTextForm {
+  margin: 0.1rem 0rem;
   width: 95%;
   border-radius: 0.4rem;
   font-size: 100%;
@@ -38,13 +38,13 @@ body {
   background-color: rgb(248, 185, 92);
   padding: 2% 4% 2% 4%;
   border-radius: 0.5rem;
-  margin: 10% 2% 7% 2%;
+  margin: 7% 2% 5% 2%;
 }
 
 #login-button,
 #register-button {
   position: relative;
-  width: 100%;
+  width: 95%;
   display: inline-block;
   background-color: rgb(129, 220, 243);
   text-align: center;
@@ -53,10 +53,44 @@ body {
   border-radius: 0.5rem;
   font-size: 100%;
   box-shadow: 0rem 0rem 0.2rem 0rem;
-  margin: 0% 2%;
+}
+
+#dashboard {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+#dashBalance {
+  /*background-color: rgb(223, 236, 241);
+  display: inline-block;
+  padding-left: 2%;
+  padding-right: 2%;
+  border-radius: 1rem;
+  text-align: center;*/
+  background-color:rgb(247, 200, 101);
+  border-radius: 2vw;
+  margin: 0 43.5%;
+  padding: 1% 0;
+  font-size: 3vw;
+  height: 100%;
+  width: 13%;
 }
 
 #transactionTable {
   display: inline-block;
-  text-align: center;
+  text-align: left;
+  font-size: 1.5vw;
+  border-spacing: 10px;
+}
+
+th, td {
+  border-bottom: 1px solid rgb(10, 15, 71);
+  padding: 1%;
+  width: 1%;
+}
+
+table {
+  border-collapse: collapse;
 }
