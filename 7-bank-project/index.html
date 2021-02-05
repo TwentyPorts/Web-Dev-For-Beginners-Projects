@@ -18,24 +18,36 @@
           <form id="loginForm" action="javascript:login()">
             <!-- label for #username -->
             <label for="username" class="inputLabel">Username</label>
-            <br>
-            <input id="username" name="user" type="text" class="inputTextForm" />
-            <br><br>
-            <div id="loginError" style="color:red" role="alert"></div>
+            <br />
+            <input
+              id="username"
+              name="user"
+              type="text"
+              class="inputTextForm"
+            />
+            <br /><br />
+            <div id="loginError" style="color: red" role="alert"></div>
             <button id="login-button">Login</button>
           </form>
-          <br>
+          <br />
           <hr />
           <!-- horizontal rule -->
           <h2 class="loginHeader">Register</h2>
           <p id="errorMessage" style="color: Red" role="alert"></p>
           <form id="registerForm" action="javascript:register()" method="POST">
             <label for="user" class="inputLabel">Username (required)</label>
-            <br>
-            <input id="user" name="user" type="text" maxlength="20" class="inputTextForm" required />
+            <br />
+            <input
+              id="user"
+              name="user"
+              type="text"
+              maxlength="20"
+              class="inputTextForm"
+              required
+            />
             <br />
             <label for="currency" class="inputLabel">Currency (required)</label>
-            <br>
+            <br />
             <input
               id="currency"
               name="currency"
@@ -47,7 +59,7 @@
             />
             <br />
             <label for="description" class="inputLabel">Description</label>
-            <br>
+            <br />
             <input
               id="description"
               name="description"
@@ -57,35 +69,79 @@
             />
             <br />
             <label for="balance" class="inputLabel">Current balance</label>
-            <br>
-            <input id="balance" name="balance" type="number" value="0" class="inputTextForm" />
+            <br />
+            <input
+              id="balance"
+              name="balance"
+              type="number"
+              value="0"
+              class="inputTextForm"
+            />
             <br /><br />
             <button id="register-button">Register</button>
           </form>
         </section>
         <br />
       </section>
-        <section>
-          <!--<a href="/dashboard" onclick="onLinkClick()">Login</a>-->
-          <br />
-          <a href="/credits" onclick="onLinkClick()">Credits</a>
-        </section>
+      <section>
+        <!--<a href="/dashboard" onclick="onLinkClick()">Login</a>-->
+        <br />
+        <a href="/credits" onclick="onLinkClick()">Credits</a>
+      </section>
     </template>
     <template id="dashboard">
       <header>
         <h1 id="bankAppHeader">Bank App</h1>
-        <a href="/login" onclick="onLinkClick()" style="font-size: 1.2vw;">Logout</a>
+        <a href="/login" onclick="onLinkClick()" style="font-size: 1.2vw"
+          >Logout</a
+        >
         <br /><br />
       </header>
       <section id="dashBalance">
-        <h6 style="margin:0;font-size:50%;">BALANCE</h6><hr style="margin:0;"><span id="balance"></span><span id="currency"></span>
+        <h6 style="margin: 0; font-size: 50%">BALANCE</h6>
+        <hr style="margin: 0" />
+        <span id="balance"></span><span id="currency"></span>
       </section>
-      <h2 id="description" style="font-size: 3vw;"></h2>
+      <h2 id="description" style="font-size: 3vw"></h2>
       <section>
-        <h2 style="font-size: 2vw;">Transactions</h2>
-        <button style="background-color: rgb(129, 220, 243);">Add Transaction</button>
-        <section hidden id="addTransaction">
-          <h2>ADD TRANSACTION</h2>
+        <h2 style="font-size: 2vw">Transactions</h2>
+        <button id="addTransactionButton" onclick="toggleTransactionOverlay()">
+          Add Transaction
+        </button>
+        <section id="overlay">
+          <section id="addTransactionOverlay">
+            <button id="exitOverlay" onclick="toggleTransactionOverlay()">
+              &#10006;
+            </button>
+            <h2>ADD TRANSACTION</h2>
+            <form id="addTransactionForm" action="javascript:addTransaction()" method="POST">
+              <label for="transacDate" class="inputLabel">Date</label>
+              <input
+                id="transacDate"
+                name="date"
+                type="date"
+                class="inputTextForm"
+                required
+              />
+              <label for="transacObject" class="inputLabel" maxlength="50">Object</label>
+              <input
+                id="transacObject"
+                name="object"
+                type="text"
+                class="inputTextForm"
+                required
+              />
+              <label for="transacAmount" class="inputLabel" value="0" step="any">Amount (Positive/Negative)</label>
+              <input
+                id="transacAmount"
+                name="amount"
+                type="number"
+                class="inputTextForm"
+                required
+              />
+              <button id="confirm-button">Confirm</button>
+            </form>
+          </section>
         </section>
         <table id="transactionTable">
           <thead id="transactionTableHead">

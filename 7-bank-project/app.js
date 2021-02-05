@@ -120,7 +120,7 @@ function logout() {
   navigate('/login');
 }
 
-async function sendRequest(account, requestType) {
+async function sendRequest(account, requestType, optionalBody = null) {
   try {
     switch (requestType) {
       case "login": {
@@ -134,6 +134,15 @@ async function sendRequest(account, requestType) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: account,
+        });
+        return await response.json();
+      }
+      case "addTransaction": {
+        console.log(encodeURIComponent(account));
+        const response = await fetch("//localhost:5000/api/accounts/" + encodeURIComponent(account) + "/transactions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: optionalBody,
         });
         return await response.json();
       }
@@ -174,6 +183,37 @@ function createTransactionRow(transaction) {
   tr.children[1].textContent = transaction.object;
   tr.children[2].textContent = transaction.amount.toFixed(2);
   return transactionRow;
+}
+
+function toggleTransactionOverlay() {
+  const transacOverlay = document.getElementById("addTransactionOverlay");
+  const darkOverlay = document.getElementById("overlay");
+  const overlayShown = (transacOverlay.style.display === "block");
+  if(overlayShown) {
+    transacOverlay.style.display = "none";
+    darkOverlay.style.display = "none";
+  }
+  else {
+    transacOverlay.style.display = "block";
+    darkOverlay.style.display = "block";
+  }
+}
+
+function addTransaction() {
+  const account = state.account.user;
+  const transacForm = document.getElementById("addTransactionForm");
+  const formData = new FormData(addTransactionForm);
+  const data = Object.fromEntries(formData);
+  const jsonData = JSON.stringify(data);
+  sendRequest(account, "addTransaction", jsonData);
+  /*const newAccount = {
+    ...state.account,
+    balance: state.account.balance + data.amount,
+    transactions: [...state.account.transactions, data]
+  };
+  updateState('account', newAccount);*/
+  updateDashboard();
+  toggleTransactionOverlay();
 }
 
 // ===== INIT =====
